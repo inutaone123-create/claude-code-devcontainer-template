@@ -50,6 +50,43 @@ CLAUDE.md のルールに従って作業してください。
 
 ---
 
+## 🤖 モデル使い分け（サブエージェント）
+
+このテンプレートには `.claude/agents/` に3つのサブエージェントが定義されています。
+タスクの重さに応じて Claude が自動的に適切なモデルに委譲します。
+
+| エージェント | モデル | 使いどころ |
+|-------------|--------|-----------|
+| `explorer` | Haiku | ファイル検索・コード確認・構造把握 |
+| `implementer` | Sonnet | 通常の実装・テスト修正・バグ修正 |
+| `architect` | Opus | 設計・計画・複雑な技術的意思決定 |
+
+メインの会話は `sonnet`（`.claude/settings.json` で設定）で動き、
+重い作業・軽い作業はサブエージェントに自動委譲されます。
+
+### カスタマイズ方法
+
+各エージェントの定義は `.claude/agents/` のファイルを直接編集します：
+
+```markdown
+---
+name: explorer
+model: haiku       ← ここでモデルを変更
+tools: Read, Grep, Glob, Bash
+---
+説明文...
+```
+
+使用できるモデル名: `haiku` / `sonnet` / `opus`
+
+メインの会話モデルは `.claude/settings.json` で変更します：
+
+```json
+{ "model": "sonnet" }
+```
+
+---
+
 ## 🐳 Dockerファイル詳細
 
 ### Dockerfile に含まれるツール
@@ -107,4 +144,5 @@ docker-compose build
 - [ ] `CLAUDE.md` のGit設定・リモートURLを設定した
 - [ ] Dev Container でビルドが成功した
 - [ ] `claude` コマンドが起動できることを確認した
+- [ ] `.claude/agents/` のモデル設定を確認・調整した
 - [ ] Claude Code にプロンプトを渡して実行開始した
