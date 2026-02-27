@@ -16,13 +16,8 @@ GitHubの「Use this template」ボタンを押し、新たなリポジトリを
 
 ### 其の二：軍略書のプレースホルダーを埋める
 
-以下のファイルの `{{...}}` を実際の値に書き改めること：
-
-| 軍略書 | 書き改める箇所 |
-|--------|--------------|
-| `CLAUDE.md` | Git設定・リモートURL・技術的知見 |
-| `AGENT_MASTER_PLAN.md` | 目標・フェーズ設計・制約条件 |
-| `.devcontainer/devcontainer.json` | プロジェクト名 |
+`AGENT_MASTER_PLAN.md` の目標・フェーズ設計・制約条件を記入すること。
+`{{...}}` の一括置換は、Dev Container 起動後に `/project:init` を唱えれば自動で執り行われ申す。
 
 詳細は `AGENT_EXECUTION_GUIDE.md` のプレースホルダー一覧を参照されたし。
 
@@ -57,13 +52,24 @@ CLAUDE.md のルールに従って作業してください。
 │   └── devcontainer.json       # 御城設定
 ├── CLAUDE.md                   # 軍律（作業ルール・ワークフロー）
 ├── AGENT_MASTER_PLAN.md        # 作戦書（Claude Code への指示書）
-├── AGENT_EXECUTION_GUIDE.md    # 出陣手順・プレースホルダー一覧
+├── AGENT_EXECUTION_GUIDE.md    # 出陣手順・スラッシュコマンド一覧
+├── docs/
+│   ├── Doxyfile.template       # Doxygen設定ひな型
+│   └── qiita_template.md       # Qiita記事ひな型
 ├── .claude/
 │   ├── settings.json           # 兵力設定（デフォルトモデル）
-│   └── agents/
-│       ├── explorer.md         # 🔍 斥候部隊（Haiku）
-│       ├── implementer.md      # ⚙️ 実装部隊（Sonnet）
-│       └── architect.md        # 🏛️ 軍師（Opus）
+│   ├── agents/
+│   │   ├── explorer.md         # 🔍 斥候部隊（Haiku）
+│   │   ├── implementer.md      # ⚙️ 実装部隊（Sonnet）
+│   │   └── architect.md        # 🏛️ 軍師（Opus）
+│   └── commands/project/
+│       ├── init.md             # /project:init
+│       ├── status.md           # /project:status
+│       ├── license-check.md    # /project:license-check
+│       ├── bdd.md              # /project:bdd
+│       ├── docs.md             # /project:docs
+│       ├── report.md           # /project:report
+│       └── qiita.md            # /project:qiita
 └── .gitignore
 ```
 
@@ -79,6 +85,20 @@ CLAUDE.md のルールに従って作業してください。
 
 各将は出陣時に名乗りを上げ申す。また `.claude/agent.log` に召喚の記録が残り候。
 
+## 陣中の秘術（スラッシュコマンド）
+
+`claude` 起動後、以下の呪文を唱えることができ申す：
+
+| 呪文 | 唱えるとき | 効果 |
+|------|-----------|------|
+| `/project:init` | 開戦直後（1回） | `{{...}}` を対話形式で一括置換、git / remote 設定 |
+| `/project:status` | いつでも | フェーズ進捗・未置換箇所・テスト状態を一覧表示 |
+| `/project:license-check` | 実装中・完了前 | ライセンスヘッダー欠けを検出、自動追加を提案 |
+| `/project:bdd` | BDD確認時 | `behave` を実行してシナリオ単位で PASS/FAIL を表示 |
+| `/project:docs` | 実装完了後 | Doxygen / Sphinx / cargo doc を一括実行 |
+| `/project:report` | 各フェーズ完了時 | `docs/COMPLETION_REPORT.md` を自動生成 |
+| `/project:qiita` | 最終化時（任意） | `docs/qiita_draft.md` にQiita記事ドラフトを生成 |
+
 ## 御城に備わる兵器（開発環境）
 
 | 兵器/流派 | 詳細 |
@@ -87,8 +107,10 @@ CLAUDE.md のルールに従って作業してください。
 | Octave | latest + signal package |
 | C++ | g++ + cmake + Eigen |
 | C# | .NET SDK 8.0 |
-| Rust | latest (cargo) |
+| Rust | latest (rustup stable) |
 | Claude Code | latest (npm) |
+| Doxygen + Graphviz | C++/C# APIドキュメント生成 |
+| Sphinx + Breathe | Python APIドキュメント生成 |
 
 ## 御法度（ライセンス）
 
