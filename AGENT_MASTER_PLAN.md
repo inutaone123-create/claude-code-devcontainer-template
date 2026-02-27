@@ -79,8 +79,41 @@
 - .vscode/settings.json
 
 ### Phase 3: BDD仕様定義
-- features/*.feature 作成
-- Step定義ファイル作成
+- features/*.feature 作成（以下のGherkinひな型を参考に）
+- Step定義ファイル作成（`features/steps/` 以下）
+
+**Gherkinひな型（`features/{{FEATURE_NAME}}.feature`）**:
+```gherkin
+Feature: {{FEATURE_NAME}}
+  {{FEATURE_DESCRIPTION}}
+
+  Scenario: {{SCENARIO_1}}
+    Given {{GIVEN_CONDITION}}
+    When {{WHEN_ACTION}}
+    Then {{THEN_RESULT}}
+
+  Scenario: エラーケース — {{SCENARIO_ERROR}}
+    Given {{ERROR_GIVEN}}
+    When {{ERROR_WHEN}}
+    Then {{ERROR_THEN}}
+```
+
+**Step定義ひな型（`features/steps/{{FEATURE_NAME}}_steps.py`）**:
+```python
+from behave import given, when, then
+
+@given(u'{{GIVEN_CONDITION}}')
+def step_given(context):
+    pass  # TODO: 実装
+
+@when(u'{{WHEN_ACTION}}')
+def step_when(context):
+    pass  # TODO: 実装
+
+@then(u'{{THEN_RESULT}}')
+def step_then(context):
+    pass  # TODO: 実装
+```
 
 ### Phase 4〜N: 実装フェーズ
 <!-- 実装するモジュール・言語・機能ごとにPhaseを定義する -->
@@ -184,6 +217,10 @@
 2. 修正方法を判断
 3. 自動的に修正
 4. 再テスト
+5. **3回試みても解決しない場合**: 作業を停止し、以下を報告してユーザーの指示を仰ぐ
+   - 現在のPhase・実行コマンド
+   - エラーメッセージ全文
+   - 試みた修正内容
 
 ### 完了条件
 - 全Phaseの成功基準を満たす

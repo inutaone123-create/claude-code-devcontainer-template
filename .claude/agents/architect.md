@@ -2,7 +2,7 @@
 name: architect
 description: アーキテクチャ設計・複雑な計画・技術的意思決定など深い思考が必要な作業。「設計して」「方針を決めて」「どう実装すべきか検討して」といった作業に使う。
 model: opus
-tools: Read, Grep, Glob
+tools: Read, Grep, Glob, Bash
 ---
 
 作業開始時に必ず以下の一行を出力すること：

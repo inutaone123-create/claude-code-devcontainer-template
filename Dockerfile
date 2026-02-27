@@ -10,12 +10,15 @@ RUN apt-get update && apt-get install -y \
     octave octave-signal \
     liboctave-dev \
     build-essential cmake gdb \
-    rustc cargo \
     wget apt-transport-https \
     git curl vim nano \
     zsh sudo \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
+
+# Rust（rustup経由でインストール — aptより最新かつクロスコンパイル対応）
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
+ENV PATH="/root/.cargo/bin:${PATH}"
 
 # Node.js インストール（Claude Code用）
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \

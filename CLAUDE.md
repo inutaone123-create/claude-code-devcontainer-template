@@ -94,14 +94,11 @@ main ← マージ → push
 2. **影響分析** — 変更が及ぶ言語・ファイルを洗い出す
 3. **実装** — 全対象言語に対して修正を適用（ライセンスヘッダー維持）
 4. **言語別テスト** — 各言語のテストを実行して全パスを確認
-   ```
-   {{TEST_COMMANDS}}
-   ```
+   （`AGENT_MASTER_PLAN.md` の `{{TEST_COMMANDS}}` を参照。未設定の場合は `pytest` を実行）
 5. **クロス検証** — テストデータ再生成 → 全言語エクスポート再実行 → 検証スクリプト実行
-   ```
-   {{CROSS_VALIDATION_COMMANDS}}
-   ```
+   （`AGENT_MASTER_PLAN.md` の `{{CROSS_VALIDATION_COMMANDS}}` を参照）
    ❌ 失敗した場合: 失敗したペアの言語を特定 → ステップ2（影響分析）に戻る
+   ❌ 3回試みても解決しない場合: 作業を停止し、現状と問題をユーザーに報告して指示を仰ぐ
 6. **BDDテスト** — `behave features/` を実行（全シナリオ PASS を確認）
 7. **ドキュメント更新** — 仕様変更・新機能追加時は docs/, COMPLETION_REPORT を更新
 8. **コミット＆プッシュ** — 作業ブランチでコミット → main にマージ → push
@@ -114,6 +111,13 @@ main ← マージ → push
 ## 技術的知見
 
 <!-- プロジェクト進行中に発見した言語別・ライブラリ別のハマりどころを記録する -->
+<!-- 例: -->
+<!-- ### Python -->
+<!-- - `np.fft.fft` の正規化は Forward=なし、Inverse=1/N -->
+<!-- - `scipy.signal.butter` の `fs` 引数は Hz 単位（省略するとサンプリング周波数 1.0 扱い） -->
+<!-- ### C++ -->
+<!-- - Eigen の FFT は `Eigen::FFT<float>` ではなく `Eigen::FFT<double>` を使う -->
+<!-- - CMake で Eigen をリンクする場合は `target_link_libraries(target Eigen3::Eigen)` -->
 
 ### {{LANG_1}}
 -

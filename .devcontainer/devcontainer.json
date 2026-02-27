@@ -31,7 +31,7 @@
 
   "forwardPorts": [],
 
-  "postCreateCommand": "git config --global --add safe.directory /workspace && echo 'Dev Container ready! Run: claude'",
+  "postCreateCommand": "git config --global --add safe.directory /workspace && mkdir -p docs features/steps .claude && echo 'Dev Container ready! Run: claude'",
 
   "remoteUser": "root"
 }

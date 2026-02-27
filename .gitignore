@@ -47,3 +47,4 @@ results/
 # Claude Code（設定・キャッシュは除外、agentsはコミット対象）
 .claude/todos/
 .claude/*.log
+.claude/agent.log
