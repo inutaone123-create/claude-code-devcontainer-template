@@ -130,6 +130,8 @@ Dev Container 内で `claude` を起動後、以下のコマンドが使用で�
 | `/project:init` | プロジェクト開始時（1回） | `{{...}}` を対話形式で一括置換、git / remote 設定 |
 | `/project:status` | いつでも | フェーズ進捗・未置換プレースホルダー・テスト状態を表示 |
 | `/project:license-check` | 実装中・完了前 | ライセンスヘッダー欠けファイルを検出、自動追加を提案 |
+| `/project:review-code` | 実装完了後 | 静的解析＋定性レビュー（命名・構造・コメント） |
+| `/project:review-spec` | BDD作成後・完了前 | BDD仕様 ↔ API仕様のカバレッジ照合、未カバーのシナリオを提案 |
 | `/project:bdd` | BDD確認時 | `behave` を実行してシナリオ単位で PASS/FAIL を表示 |
 | `/project:docs` | 実装完了後 | Doxygen / Sphinx / cargo doc を一括実行してAPIドキュメントを生成 |
 | `/project:report` | フェーズ完了時 | `docs/COMPLETION_REPORT.md` を現状から自動生成 |
@@ -142,10 +144,12 @@ Dev Container 内で `claude` を起動後、以下のコマンドが使用で�
   ↓ 実装フェーズ ...
 /project:status        # 2. 進捗確認（随時）
 /project:license-check # 3. ヘッダー漏れ確認（随時）
-/project:bdd           # 4. BDDテスト確認
-/project:docs          # 5. APIドキュメント生成
-/project:report        # 6. 完了報告書生成
-/project:qiita         # 7. Qiita記事ドラフト生成（任意）
+/project:review-spec   # 4. BDD仕様カバレッジ確認
+/project:review-code   # 5. コードレビュー
+/project:bdd           # 6. BDDテスト実行
+/project:docs          # 7. APIドキュメント生成
+/project:report        # 8. 完了報告書生成
+/project:qiita         # 9. Qiita記事ドラフト生成（任意）
 ```
 
 ---

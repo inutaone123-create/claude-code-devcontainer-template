@@ -66,6 +66,8 @@ CLAUDE.md のルールに従って作業してください。
 │       ├── init.md             # /project:init
 │       ├── status.md           # /project:status
 │       ├── license-check.md    # /project:license-check
+│       ├── review-code.md      # /project:review-code
+│       ├── review-spec.md      # /project:review-spec
 │       ├── bdd.md              # /project:bdd
 │       ├── docs.md             # /project:docs
 │       ├── report.md           # /project:report
@@ -94,6 +96,8 @@ CLAUDE.md のルールに従って作業してください。
 | `/project:init` | 開戦直後（1回） | `{{...}}` を対話形式で一括置換、git / remote 設定 |
 | `/project:status` | いつでも | フェーズ進捗・未置換箇所・テスト状態を一覧表示 |
 | `/project:license-check` | 実装中・完了前 | ライセンスヘッダー欠けを検出、自動追加を提案 |
+| `/project:review-code` | 実装完了後 | 静的解析＋定性レビュー（命名・構造・コメント） |
+| `/project:review-spec` | BDD作成後・完了前 | BDD仕様 ↔ API仕様のカバレッジ照合、未カバーを提案 |
 | `/project:bdd` | BDD確認時 | `behave` を実行してシナリオ単位で PASS/FAIL を表示 |
 | `/project:docs` | 実装完了後 | Doxygen / Sphinx / cargo doc を一括実行 |
 | `/project:report` | 各フェーズ完了時 | `docs/COMPLETION_REPORT.md` を自動生成 |
