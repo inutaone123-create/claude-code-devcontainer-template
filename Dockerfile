@@ -45,7 +45,16 @@ RUN pip3 install \
     pytest-cov>=3.0.0 \
     behave>=1.2.6 \
     black>=23.0.0 \
-    ipython
+    ipython \
+    sphinx>=7.0.0 \
+    sphinx-rtd-theme>=1.3.0 \
+    breathe>=4.35.0
+
+# ドキュメント生成ツール（Doxygen + Graphviz）
+RUN apt-get update && apt-get install -y \
+    doxygen \
+    graphviz \
+    && rm -rf /var/lib/apt/lists/*
 
 # Octave パッケージ（不要なら削除）
 RUN octave --eval "pkg install -forge signal"

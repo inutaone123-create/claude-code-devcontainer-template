@@ -123,11 +123,19 @@ def step_then(context):
 ### Phase 5: {{IMPL_PHASE_2}}
 - {{IMPL_PHASE_2_TASKS}}
 
-### Phase N-1: 検証・クロス検証
+### Phase N-2: 検証・クロス検証
 - {{VALIDATION_TASKS}}
 
+### Phase N-1: ドキュメント生成
+- `/project:docs` を実行して全言語のAPIドキュメントを生成
+- C++/C# → Doxygen（`docs/doxygen/html/index.html`）
+- Python  → Sphinx（`docs/sphinx/_build/html/index.html`）
+- Rust    → cargo doc（`target/doc/index.html`）
+- 生成されたドキュメントに未記入の `@brief` / `"""` 等がないか確認
+- `/project:license-check` でライセンスヘッダーの最終確認
+
 ### Phase N: 最終化
-- ドキュメント完成
+- ドキュメント完成（`/project:report` で COMPLETION_REPORT.md 生成）
 - Qiita記事ドラフト（任意）
 
 ---
@@ -170,11 +178,16 @@ def step_then(context):
 - [ ] テスト全パス
 - [ ] ライセンスヘッダー含む
 
-### Phase N-1（検証）
+### Phase N-2（検証）
 - [ ] {{VALIDATION_CRITERIA}}
 
+### Phase N-1（ドキュメント生成）
+- [ ] Doxygen / Sphinx / cargo doc が警告なく生成完了
+- [ ] 全パブリック関数にドキュメントコメントあり
+- [ ] `/project:license-check` で全ファイルにヘッダーあり確認
+
 ### Phase N
-- [ ] ドキュメント完成
+- [ ] COMPLETION_REPORT.md 生成済み
 - [ ] 全テストパス確認
 
 ---

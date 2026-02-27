@@ -10,6 +10,58 @@
 - 日本語でコミュニケーション
 - 一区切りついたらコミット＆プッシュまで行う
 
+## ドキュメントコメント規約
+
+新規ファイル追加時はライセンスヘッダーの直後に、言語ごとの規約でドキュメントコメントを付ける。
+
+**C++（Doxygen形式）**
+```cpp
+/**
+ * @brief 関数の概要（1行）
+ * @param x 入力の説明
+ * @return 出力の説明
+ * @note 補足事項（任意）
+ */
+```
+
+**C#（XML Doc形式）**
+```csharp
+/// <summary>関数の概要（1行）</summary>
+/// <param name="x">入力の説明</param>
+/// <returns>出力の説明</returns>
+```
+
+**Python（Google-style docstring）**
+```python
+def func(x):
+    """関数の概要（1行）.
+
+    Args:
+        x: 入力の説明
+
+    Returns:
+        出力の説明
+    """
+```
+
+**Rust（rustdoc形式）**
+```rust
+/// 関数の概要（1行）.
+///
+/// # Arguments
+/// * `x` - 入力の説明
+///
+/// # Returns
+/// 出力の説明
+```
+
+**Octave（Doxygen互換形式）**
+```matlab
+## @brief 関数の概要（1行）
+## @param x 入力の説明
+## @retval y 出力の説明
+```
+
 ## ライセンスヘッダー テンプレート
 
 新規ファイル追加時は言語に応じた形式でヘッダーを付ける：
@@ -100,8 +152,12 @@ main ← マージ → push
    ❌ 失敗した場合: 失敗したペアの言語を特定 → ステップ2（影響分析）に戻る
    ❌ 3回試みても解決しない場合: 作業を停止し、現状と問題をユーザーに報告して指示を仰ぐ
 6. **BDDテスト** — `behave features/` を実行（全シナリオ PASS を確認）
-7. **ドキュメント更新** — 仕様変更・新機能追加時は docs/, COMPLETION_REPORT を更新
-8. **コミット＆プッシュ** — 作業ブランチでコミット → main にマージ → push
+7. **ドキュメント生成** — `/project:docs` を実行し、全言語のAPIドキュメントを生成
+   - C++/C# → Doxygen（`docs/doxygen/html/index.html`）
+   - Python  → Sphinx（`docs/sphinx/_build/html/index.html`）
+   - Rust    → cargo doc（`target/doc/<crate>/index.html`）
+8. **ドキュメント更新** — 仕様変更・新機能追加時は docs/, COMPLETION_REPORT を更新
+9. **コミット＆プッシュ** — 作業ブランチでコミット → main にマージ → push
 
 ## 環境ノート
 - `/workspace` は `git config --global --add safe.directory /workspace` が必要

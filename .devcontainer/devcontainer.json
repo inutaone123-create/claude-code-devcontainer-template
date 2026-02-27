@@ -13,7 +13,9 @@
         "ms-vscode.cpptools",
         "ms-vscode.cmake-tools",
         "ms-dotnettools.csharp",
-        "rust-lang.rust-analyzer"
+        "rust-lang.rust-analyzer",
+        "cschlosser.doxdocgen",
+        "lextudio.restructuredtext"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash",
