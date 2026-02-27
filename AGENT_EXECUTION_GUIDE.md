@@ -18,6 +18,8 @@
 - `CLAUDE.md` の Git設定・リモートURL・技術的知見
 - `AGENT_MASTER_PLAN.md` の目標・フェーズ・制約条件
 
+> 💡 Dev Container 起動後に `/project:init` を実行すると、対話形式で一括置換できます。
+
 ### ステップ2: Dev Containerで開く
 
 ```bash
@@ -97,10 +99,13 @@ tools: Read, Grep, Glob, Bash
 | 言語 | Octave + signal pkg | 数値計算 |
 | 言語 | C++ (g++, cmake) | 高速実装 |
 | 言語 | .NET SDK 8.0 | C# 実装 |
-| 言語 | Rust (cargo) | 安全性重視実装 |
+| 言語 | Rust (rustup stable) | 安全性重視実装 |
 | AI | Claude Code (npm) | エージェント実行 |
 | テスト | pytest, behave | Python テスト・BDD |
 | 品質 | black | コードフォーマット |
+| ドキュメント | doxygen, graphviz | C++/C# APIドキュメント生成 |
+| ドキュメント | sphinx, breathe | Python APIドキュメント生成 |
+| ドキュメント | cargo doc | Rust APIドキュメント生成 |
 
 ### 言語を追加・削除したい場合
 
@@ -110,6 +115,37 @@ tools: Read, Grep, Glob, Bash
 ```bash
 docker-compose build
 # F1 → "Dev Containers: Rebuild Container"
+```
+
+---
+
+## 🛠️ スラッシュコマンド一覧
+
+Dev Container 内で `claude` を起動後、以下のコマンドが使用できます。
+
+### プロジェクト管理コマンド（`/project:*`）
+
+| コマンド | タイミング | 内容 |
+|---------|-----------|------|
+| `/project:init` | プロジェクト開始時（1回） | `{{...}}` を対話形式で一括置換、git / remote 設定 |
+| `/project:status` | いつでも | フェーズ進捗・未置換プレースホルダー・テスト状態を表示 |
+| `/project:license-check` | 実装中・完了前 | ライセンスヘッダー欠けファイルを検出、自動追加を提案 |
+| `/project:bdd` | BDD確認時 | `behave` を実行してシナリオ単位で PASS/FAIL を表示 |
+| `/project:docs` | 実装完了後 | Doxygen / Sphinx / cargo doc を一括実行してAPIドキュメントを生成 |
+| `/project:report` | フェーズ完了時 | `docs/COMPLETION_REPORT.md` を現状から自動生成 |
+| `/project:qiita` | 最終化時（任意） | `docs/qiita_draft.md` にQiita投稿用記事ドラフトを生成 |
+
+### 典型的な使用順序
+
+```
+/project:init          # 1. プロジェクト初期化
+  ↓ 実装フェーズ ...
+/project:status        # 2. 進捗確認（随時）
+/project:license-check # 3. ヘッダー漏れ確認（随時）
+/project:bdd           # 4. BDDテスト確認
+/project:docs          # 5. APIドキュメント生成
+/project:report        # 6. 完了報告書生成
+/project:qiita         # 7. Qiita記事ドラフト生成（任意）
 ```
 
 ---
@@ -139,10 +175,10 @@ docker-compose build
 ## ✅ プロジェクト開始チェックリスト
 
 - [ ] このテンプレートリポジトリから新しいリポジトリを作成した
-- [ ] `{{...}}` プレースホルダーをすべて埋めた
-- [ ] `AGENT_MASTER_PLAN.md` のフェーズ設計を完了した
-- [ ] `CLAUDE.md` のGit設定・リモートURLを設定した
-- [ ] Dev Container でビルドが成功した
+- [ ] `AGENT_MASTER_PLAN.md` のフェーズ設計・成果物・制約条件を記入した
+- [ ] Dev Container でビルドが成功した（初回は数分かかる）
 - [ ] `claude` コマンドが起動できることを確認した
+- [ ] `/project:init` を実行して `{{...}}` プレースホルダーを一括置換した
+- [ ] `/project:status` で未置換プレースホルダーがないことを確認した
 - [ ] `.claude/agents/` のモデル設定を確認・調整した
 - [ ] Claude Code にプロンプトを渡して実行開始した
