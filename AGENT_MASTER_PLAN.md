@@ -135,8 +135,10 @@ def step_then(context):
 - `/project:license-check` でライセンスヘッダーの最終確認
 
 ### Phase N: 最終化
-- ドキュメント完成（`/project:report` で COMPLETION_REPORT.md 生成）
-- Qiita記事ドラフト（任意）
+- `/project:report` で `docs/COMPLETION_REPORT.md` を生成
+- `/project:qiita` で `docs/qiita_draft.md` を生成（任意）
+  - `docs/qiita_template.md` を参照して構成を確認
+  - TODO 箇所をユーザーが手動記入して完成させる
 
 ---
 
@@ -187,8 +189,9 @@ def step_then(context):
 - [ ] `/project:license-check` で全ファイルにヘッダーあり確認
 
 ### Phase N
-- [ ] COMPLETION_REPORT.md 生成済み
+- [ ] COMPLETION_REPORT.md 生成済み（`/project:report`）
 - [ ] 全テストパス確認
+- [ ] qiita_draft.md 生成済み（`/project:qiita`、任意）
 
 ---
 

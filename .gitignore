@@ -41,6 +41,7 @@ Thumbs.db
 # ドキュメント生成物（テンプレートはコミット対象、生成物は除外）
 docs/doxygen/
 docs/sphinx/_build/
+docs/qiita_draft.md
 Doxyfile
 
 # Results / 生成ファイル

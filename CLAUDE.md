@@ -157,7 +157,8 @@ main ← マージ → push
    - Python  → Sphinx（`docs/sphinx/_build/html/index.html`）
    - Rust    → cargo doc（`target/doc/<crate>/index.html`）
 8. **ドキュメント更新** — 仕様変更・新機能追加時は docs/, COMPLETION_REPORT を更新
-9. **コミット＆プッシュ** — 作業ブランチでコミット → main にマージ → push
+9. **Qiita記事ドラフト** — `/project:qiita` を実行して `docs/qiita_draft.md` を生成（任意）
+10. **コミット＆プッシュ** — 作業ブランチでコミット → main にマージ → push
 
 ## 環境ノート
 - `/workspace` は `git config --global --add safe.directory /workspace` が必要
