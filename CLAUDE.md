@@ -168,8 +168,14 @@ main ← マージ → push
    - C++/C# → Doxygen（`docs/doxygen/html/index.html`）
    - Python  → Sphinx（`docs/sphinx/_build/html/index.html`）
    - Rust    → cargo doc（`target/doc/<crate>/index.html`）
-8. **ドキュメント更新** — 仕様変更・新機能追加時は docs/, COMPLETION_REPORT を更新
-9. **Qiita記事ドラフト** — `/project:qiita` を実行して `docs/qiita_draft.md` を生成
+8. **ドキュメント更新** — 仕様変更・新機能追加時は **README.md**（特徴・APIエンドポイント・ファイル構成）, docs/, COMPLETION_REPORT を更新
+9. **Qiita記事ドラフト** — `/project:qiita` を実行してドラフトを生成。以下の方針で**モードを選択**すること：
+   - **初回 or 記事がまだない場合** → `docs/qiita_draft.md` に新規作成（全体構成から書く）
+   - **機能追加・仕様変更の場合** → `docs/qiita_draft_<連番または機能名>.md` に**別記事**として作成
+     - 冒頭で前の記事をリンクする
+     - 「設計の判断」「ハマりどころ」を中心に書く（前記事との差分が主役）
+     - 既存の `docs/qiita_draft.md` は**上書きしない**
+   - **連番の確認**: `ls docs/qiita_draft_*.md` で既存ファイルを確認してから次の番号を決める
 10. **コミット＆プッシュ** — 作業ブランチでコミット → main にマージ → push
 
 ## 環境ノート
@@ -179,17 +185,14 @@ main ← マージ → push
 
 ## 技術的知見
 
-<!-- プロジェクト進行中に発見した言語別・ライブラリ別のハマりどころを記録する -->
-<!-- 例: -->
-<!-- ### Python -->
-<!-- - `np.fft.fft` の正規化は Forward=なし、Inverse=1/N -->
-<!-- - `scipy.signal.butter` の `fs` 引数は Hz 単位（省略するとサンプリング周波数 1.0 扱い） -->
-<!-- ### C++ -->
-<!-- - Eigen の FFT は `Eigen::FFT<float>` ではなく `Eigen::FFT<double>` を使う -->
-<!-- - CMake で Eigen をリンクする場合は `target_link_libraries(target Eigen3::Eigen)` -->
+<!-- プロジェクト進行中に発見した言語別・ライブラリ別のハマりどころをここに随時記録する -->
+<!-- 言語・ライブラリごとにセクションを追加していく -->
 
-### {{LANG_1}}
--
+<!-- 例:
+### Python / FastAPI
+- 気づいたこと1
+- 気づいたこと2
 
-### {{LANG_2}}
--
+### C++
+- 気づいたこと1
+-->
