@@ -1,0 +1,46 @@
+# YAML タスクキュー
+# 並列エージェント実行時のタスク管理ファイル
+#
+# 使い方:
+#   1. shogun/karo がタスクを分解してここに記録する
+#   2. 各エージェントは自分のタスクを in_progress → done に更新する
+#   3. blocked_by に依存タスクのIDを列挙すると順序制御できる
+#
+# status: waiting | in_progress | done | failed
+
+session:
+  id: "{{SESSION_ID}}"          # 例: 2026-03-08-001
+  started_at: "{{DATETIME}}"
+  goal: "{{GOAL_DESCRIPTION}}"
+
+tasks: []
+
+# ---------- タスク記入例（コピーして使ってください）----------
+#
+# - id: "001"
+#   title: "既存コードの調査"
+#   assignee: "explorer"
+#   status: "done"
+#   blocked_by: []
+#   result: "src/models.py に Issue モデルあり"
+#
+# - id: "002"
+#   title: "設計方針の策定"
+#   assignee: "architect"
+#   status: "done"
+#   blocked_by: ["001"]
+#   result: "中間テーブル方式を採用"
+#
+# - id: "003"
+#   title: "依存関係モデル実装"
+#   assignee: "implementer"
+#   status: "in_progress"
+#   blocked_by: ["002"]
+#   result: ""
+#
+# - id: "004"
+#   title: "テスト作成"
+#   assignee: "implementer"
+#   status: "waiting"
+#   blocked_by: ["003"]
+#   result: ""

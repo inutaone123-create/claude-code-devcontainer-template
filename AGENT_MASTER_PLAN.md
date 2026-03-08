@@ -217,6 +217,66 @@ def step_then(context):
 
 ---
 
+## 🏯 並列エージェント実行（multi-agent-shogun パターン）
+
+複数フェーズを同時進行させる場合は、以下の手順で並列実行する：
+
+### 並列実行手順
+
+1. **shogun エージェントを召喚**してタスク全体を委譲する
+2. shogun が `queue/tasks.yaml` にタスクを記録し、各担当へ即時委譲
+3. 依存関係のないタスクは **同時並列**で実行する
+4. `blocked_by` で依存タスクが完了するまで待機するタスクを制御する
+
+### 並列実行の例
+
+```yaml
+# queue/tasks.yaml
+tasks:
+  - id: "001"
+    title: "既存コード調査"
+    assignee: "explorer"
+    status: "done"
+    blocked_by: []
+
+  - id: "002"
+    title: "設計方針策定"
+    assignee: "architect"
+    status: "done"
+    blocked_by: ["001"]
+
+  # 003と004は並列実行可能
+  - id: "003"
+    title: "モデル実装"
+    assignee: "implementer"
+    status: "in_progress"
+    blocked_by: ["002"]
+
+  - id: "004"
+    title: "APIルーター実装"
+    assignee: "implementer"
+    status: "in_progress"
+    blocked_by: ["002"]
+
+  - id: "005"
+    title: "テスト作成"
+    assignee: "implementer"
+    status: "waiting"
+    blocked_by: ["003", "004"]
+```
+
+### エージェント選択基準
+
+| 作業規模 | 使うエージェント |
+|---------|----------------|
+| プロジェクト全体 | shogun |
+| 複数ファイルの並列作業 | karo |
+| コード調査・確認 | explorer |
+| 設計・方針決定 | architect |
+| 実装・テスト | implementer |
+
+---
+
 ## 🎓 Claude Codeエージェントへの指示
 
 **あなた（Claude Code）は、このMASTER_PLANに従って、Dev Container内でPhase 0からPhase Nまで自律的に実行してください。**

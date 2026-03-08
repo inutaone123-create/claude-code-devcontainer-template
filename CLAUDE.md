@@ -178,6 +178,54 @@ main ← マージ → push
    - **連番の確認**: `ls docs/qiita_draft_*.md` で既存ファイルを確認してから次の番号を決める
 10. **コミット＆プッシュ** — 作業ブランチでコミット → main にマージ → push
 
+## エージェント階層（multi-agent-shogun パターン）
+
+本テンプレートは以下の3層エージェント構造を採用する：
+
+```
+Claude Code（上様）
+  ↓ 命令
+shogun（総指揮官・Opus）  — 即時委譲・ノンブロッキング
+  ↓
+karo（家老・Sonnet）      — タスク分解・並列割り当て
+  ↓
+explorer / architect / implementer（足軽）— 実行
+```
+
+### 委譲ルール
+
+- **複雑なタスク**（複数ファイル・複数フェーズ）→ `shogun` エージェントを使う
+- **中規模タスク**（2〜4ファイルの並列修正）→ `karo` エージェントを使う
+- **単一作業**（調査・設計・実装）→ `explorer` / `architect` / `implementer` を直接使う
+- shogun・karoは完了を待たずに次の命令を受け付ける（ノンブロッキング）
+
+### タスク並列化
+
+並列実行時は `queue/tasks.yaml` にタスクを記録して依存関係を管理する：
+
+```yaml
+tasks:
+  - id: "001"
+    title: "調査"
+    assignee: "explorer"
+    status: "done"
+    blocked_by: []
+  - id: "002"
+    title: "実装"
+    assignee: "implementer"
+    status: "in_progress"
+    blocked_by: ["001"]
+```
+
+## スキル発見ルール
+
+実装中に繰り返しパターンを発見したら：
+
+1. `docs/skill_candidates.md` にパターンをメモする（作業を止めずに続ける）
+2. フェーズ完了後に `/project:suggest-skill` を実行してスキル化を検討する
+3. ユーザーが承認したスキルのみ `.claude/commands/project/` に追加する
+4. スキルは「再利用性が高いもの」だけを残す（増やしすぎない）
+
 ## 環境ノート
 - `/workspace` は `git config --global --add safe.directory /workspace` が必要
 - Dev Container内で作業中
