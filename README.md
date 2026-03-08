@@ -7,6 +7,9 @@ Claude Code の諸将を召喚し、Dev Container の御城内にてプロジェ
 - Dev Container の御城（Python / Octave / C++ / C# / Rust）をすぐさま築城
 - `AGENT_MASTER_PLAN.md` に作戦を記すだけで、Claude Code が自律出陣
 - BDDテスト・クロス検証・ドキュメント作成まで、一貫した戦略にて進軍
+- **Shogun → Karo → 足軽** の3層エージェント階層で大規模タスクを並列処理
+- `queue/tasks.yaml` でタスク依存関係を可視化・管理
+- `/project:suggest-skill` でよく使う作業パターンをスキルとして蓄積
 
 ## 出陣の儀（使い方）
 
@@ -50,15 +53,21 @@ CLAUDE.md のルールに従って作業してください。
 ├── docker-compose.yml          # 部隊編成
 ├── .devcontainer/
 │   └── devcontainer.json       # 御城設定
-├── CLAUDE.md                   # 軍律（作業ルール・ワークフロー）
-├── AGENT_MASTER_PLAN.md        # 作戦書（Claude Code への指示書）
+├── CLAUDE.md                   # 軍律（作業ルール・エージェント階層・スキル発見）
+├── AGENT_MASTER_PLAN.md        # 作戦書（Claude Code への指示書・並列実行例）
 ├── AGENT_EXECUTION_GUIDE.md    # 出陣手順・スラッシュコマンド一覧
+├── queue/
+│   ├── tasks.yaml              # YAMLタスクキュー（依存関係・進捗管理）
+│   └── README.md               # キューの使い方
 ├── docs/
 │   ├── Doxyfile.template       # Doxygen設定ひな型
-│   └── qiita_template.md       # Qiita記事ひな型
+│   ├── qiita_template.md       # Qiita記事ひな型
+│   └── skill_candidates.md     # スキル候補リスト
 ├── .claude/
 │   ├── settings.json           # 兵力設定（デフォルトモデル）
 │   ├── agents/
+│   │   ├── shogun.md           # 🏯 総指揮官（Opus）
+│   │   ├── karo.md             # ⚔️ 家老（Sonnet）
 │   │   ├── explorer.md         # 🔍 斥候部隊（Haiku）
 │   │   ├── implementer.md      # ⚙️ 実装部隊（Sonnet）
 │   │   └── architect.md        # 🏛️ 軍師（Opus）
@@ -71,21 +80,33 @@ CLAUDE.md のルールに従って作業してください。
 │       ├── bdd.md              # /project:bdd
 │       ├── docs.md             # /project:docs
 │       ├── report.md           # /project:report
-│       └── qiita.md            # /project:qiita
+│       ├── qiita.md            # /project:qiita
+│       └── suggest-skill.md    # /project:suggest-skill
 └── .gitignore
 ```
 
 ## 召喚される諸将
 
-作業の重さに応じて、Claude が自動的に適切な将を召喚いたします：
+**3層階層構造**（multi-agent-shogun パターン）で大規模タスクを効率的に処理いたします：
+
+```
+上様（あなた）
+  └── 🏯 shogun（総指揮官）  ← 大きなタスク・即時委譲・ノンブロッキング
+        └── ⚔️ karo（家老）  ← 並列分解・担当割り当て・queue/tasks.yaml 管理
+              ├── 🔍 explorer（斥候）
+              ├── 🏛️ architect（軍師）
+              └── ⚙️ implementer（実装）
+```
 
 | 将 | モデル | 得意な戦 |
 |----|--------|---------|
+| 🏯 shogun（総指揮官） | Opus | 全体指揮・タスク委譲・ノンブロッキング管理 |
+| ⚔️ karo（家老） | Sonnet | タスク分解・並列割り当て・進捗管理 |
 | 🔍 explorer（斥候） | Haiku | ファイル探索・構造把握・軽い調査 |
 | ⚙️ implementer（実装） | Sonnet | 通常の実装・テスト修正・バグ修正 |
 | 🏛️ architect（軍師） | Opus | 設計・計画・複雑な技術的意思決定 |
 
-各将は出陣時に名乗りを上げ申す。また `.claude/agent.log` に召喚の記録が残り候。
+各将は出陣時に名乗りを上げ申す。
 
 ## 陣中の秘術（スラッシュコマンド）
 
@@ -102,6 +123,7 @@ CLAUDE.md のルールに従って作業してください。
 | `/project:docs` | 実装完了後 | Doxygen / Sphinx / cargo doc を一括実行 |
 | `/project:report` | 各フェーズ完了時 | `docs/COMPLETION_REPORT.md` を自動生成 |
 | `/project:qiita` | 最終化時（任意） | `docs/qiita_draft.md` にQiita記事ドラフトを生成 |
+| `/project:suggest-skill` | 任意 | 繰り返しパターンを検出してスキル候補を提案 |
 
 ## 御城に備わる兵器（開発環境）
 
